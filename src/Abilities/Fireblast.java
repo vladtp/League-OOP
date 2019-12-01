@@ -8,7 +8,7 @@ import Heroes.Wizard;
 public class Fireblast extends Ability {
     public Fireblast() {
         super.baseDamage = 350;
-        super.damagePerLever = 50;
+        super.damagePerLevel = 50;
     }
 
     @Override

@@ -40,15 +40,23 @@ public class GamePlayer {
         }
 
         for (int i = 0; i < numberOfPlayer; ++i) {
+            // chech if player has damage overtime
+            Player player = players.get(i);
+            if (player.getDamageDuration() > 0) {
+                player.subHp(player.getDamageOvertime());
+                player.setDamageDuration(player.getDamageDuration() - 1);
+                // TODO check if dead
+            }
+
             char move = moves.charAt(i);
             if (move == 'U') {
-                players.get(i).moveUp();
+                player.moveUp();
             } else if (move == 'D') {
-                players.get(i).moveDown();
+                player.moveDown();
             } else if (move == 'L') {
-                players.get(i).moveLeft();
+                player.moveLeft();
             } else if (move == 'R') {
-                players.get(i).moveRight();
+                player.moveRight();
             }
         }
 
@@ -69,9 +77,22 @@ public class GamePlayer {
     }
 
     void attack(Player p1, Player p2) {
-        int totalDamage1 = p1.getHero().getFirstAbility().damage();
-        int totalDamage2 = p2.getHero().getFirstAbility().damage();
+        int totalDamage1 = p1.getHero().getFirstAbility().damage()
+                + p1.getHero().getSecondAbility().damage();
+        int totalDamage2 = p2.getHero().getFirstAbility().damage()
+                + p2.getHero().getSecondAbility().damage();;
         p1.subHp(totalDamage2);
         p2.subHp(totalDamage1);
+
+        if (p1.getHero().getSecondAbility().isOvertime()) {
+            p2.setHasDamageOvertime(true);
+            p2.setDamageOvertime(p1.getHero().getSecondAbility().getDamageOvertime());
+            p2.setDamageDuration(p1.getHero().getSecondAbility().getDamageDuration());
+        }
+        if (p2.getHero().getSecondAbility().isOvertime()) {
+            p1.setHasDamageOvertime(true);
+            p1.setDamageOvertime(p1.getHero().getSecondAbility().getDamageOvertime());
+            p1.setDamageDuration(p1.getHero().getSecondAbility().getDamageDuration());
+        }
     }
 }

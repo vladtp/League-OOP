@@ -8,4 +8,5 @@ public interface Hero {
     public char getTerrainBonusType();
     public float getBonus();
     public Ability getFirstAbility();
+    public Ability getSecondAbility();
 }

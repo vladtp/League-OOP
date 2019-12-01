@@ -34,6 +34,11 @@ public class Wizard implements Hero {
     }
 
     @Override
+    public Ability getSecondAbility() {
+        return null;
+    }
+
+    @Override
     public String toString() {
         return "W";
     }

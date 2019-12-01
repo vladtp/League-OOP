@@ -34,6 +34,11 @@ public class Rogue implements Hero {
     }
 
     @Override
+    public Ability getSecondAbility() {
+        return null;
+    }
+
+    @Override
     public String toString() {
         return "R";
     }

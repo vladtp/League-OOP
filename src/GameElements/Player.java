@@ -10,6 +10,9 @@ public class Player {
     private int xp = 0;
     private int hp;
     private boolean alive = true;
+    private boolean hasDamageOvertime = false;
+    private int damageOvertime;
+    private int damageDuration;
 
     public Player(String heroType, int x, int y) {
         this.x = x;
@@ -48,6 +51,30 @@ public class Player {
 
     public void subHp(int damage) {
         hp -= damage;
+    }
+
+    public void setHasDamageOvertime(boolean hasDamageOvertime) {
+        this.hasDamageOvertime = hasDamageOvertime;
+    }
+
+    public void setDamageOvertime(int damageOvertime) {
+        this.damageOvertime = damageOvertime;
+    }
+
+    public void setDamageDuration(int damageDuration) {
+        this.damageDuration = damageDuration;
+    }
+
+    public boolean hasDamageOvertime() {
+        return hasDamageOvertime;
+    }
+
+    public int getDamageOvertime() {
+        return damageOvertime;
+    }
+
+    public int getDamageDuration() {
+        return damageDuration;
     }
 
     @Override
