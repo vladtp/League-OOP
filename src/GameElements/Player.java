@@ -2,16 +2,21 @@ package GameElements;
 
 public class Player {
     int x, y;
-    String heroType;
+    Hero hero;
+    int level = 0;
+    int xp = 0;
+    int hp;
+    boolean alive = true;
 
     public Player(String heroType, int x, int y) {
         this.x = x;
         this.y = y;
-        this.heroType = heroType;
+        this.hero = HeroFactory.getHero(heroType);
+        this.hp = hero.getInitialHp();
     }
 
     @Override
     public String toString() {
-        return heroType + " " + x + " " + y;
+        return hero + " " + x + " " + y;
     }
 }

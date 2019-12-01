@@ -1,6 +1,7 @@
 package Main;
 
 import GameElements.Player;
+import GameElements.Map;
 import fileio.FileSystem;
 
 import java.util.ArrayList;
@@ -16,9 +17,10 @@ public class GameInputLoader {
 
     public GameInput load() {
         int n = 0, m = 0, p = 0, rounds = 0;
-        ArrayList<Character> map = new ArrayList<Character>();
+        ArrayList<Character> maplist = new ArrayList<Character>();
         ArrayList<Player> players = new ArrayList<Player>();
         ArrayList<String> moves = new ArrayList<String>();
+        Map map = Map.getInstance();
 
         try {
             FileSystem fs = new FileSystem(intputPath, outputPath);
@@ -28,9 +30,10 @@ public class GameInputLoader {
             for (int i = 0; i < n; ++i) {
                 String word = fs.nextWord();
                 for (int j = 0; j < m; ++j) {
-                    map.add(word.charAt(j));
+                    maplist.add(word.charAt(j));
                 }
             }
+            map.setMap(maplist);
             p = fs.nextInt();
             for (int i = 0; i < p; ++i) {
                 Player newPlayer = new Player(fs.nextWord(), fs.nextInt(), fs.nextInt());
