@@ -31,6 +31,7 @@ public class Fireblast extends Ability {
         return 1.05f;
     }
 
+    // TODO add bonus damage
     @Override
     public int damage() {
         return baseDamage;

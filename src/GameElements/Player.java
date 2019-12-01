@@ -56,6 +56,19 @@ public class Player {
     }
 
     public void printStats() {
-        System.out.println(hero + " | hp: " + hp);
+        System.out.println(hero + " | hp: " + hp + " | x:" + x + " y:" + y);
+    }
+
+    public void moveUp() {
+        --x;
+    }
+    public void moveDown() {
+        ++x;
+    }
+    public void moveLeft() {
+        --y;
+    }
+    public void moveRight() {
+        ++y;
     }
 }

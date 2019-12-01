@@ -14,29 +14,44 @@ public class GamePlayer {
     public void playGame() {
         int rounds = gameInput.getRounds();
         ArrayList<Player> players = gameInput.getPlayers();
+        ArrayList<String> moves = gameInput.getMoves();
 
         for (int i = 0; i < rounds; ++i) {
             System.out.println("ROUND: " + (i + 1)); // for debugging
-            playRound(players);
+            playRound(players, moves.get(i));
         }
 
         // for debugging
         System.out.println("END");
         for (int i = 0; i < players.size(); ++i) {
-            System.out.println((i + 1) + " " + players.get(i).getHero() + " | hp: " + players.get(i).getHp());
+            System.out.println((i + 1) + " " + players.get(i).getHero() + " | hp: "
+                    + players.get(i).getHp() + " | x:" + players.get(i).getX() + " y:"
+                    + players.get(i).getY());
         }
     }
 
-    void playRound(ArrayList<Player> players) {
+    void playRound(ArrayList<Player> players, String moves) {
         int numberOfPlayer = gameInput.getP();
-
-        // TODO move each player
 
         // for debugging
         for (int i = 0; i < numberOfPlayer; ++i) {
             System.out.print((i + 1) + " ");
             players.get(i).printStats();
         }
+
+        for (int i = 0; i < numberOfPlayer; ++i) {
+            char move = moves.charAt(i);
+            if (move == 'U') {
+                players.get(i).moveUp();
+            } else if (move == 'D') {
+                players.get(i).moveDown();
+            } else if (move == 'L') {
+                players.get(i).moveLeft();
+            } else if (move == 'R') {
+                players.get(i).moveRight();
+            }
+        }
+
 
         for (int i = 0; i < numberOfPlayer - 1; ++i) {
             int x = players.get(i).getX();
@@ -47,6 +62,7 @@ public class GamePlayer {
 
                 if (x == enemyX && y == enemyY) {
                     attack(players.get(i), players.get(j));
+                    // TODO check if player is dead
                 }
             }
         }
