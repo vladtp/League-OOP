@@ -1,12 +1,15 @@
 package GameElements;
 
+import Heroes.Hero;
+import Heroes.HeroFactory;
+
 public class Player {
-    int x, y;
-    Hero hero;
-    int level = 0;
-    int xp = 0;
-    int hp;
-    boolean alive = true;
+    private int x, y;
+    private Hero hero;
+    private int level = 0;
+    private int xp = 0;
+    private int hp;
+    private boolean alive = true;
 
     public Player(String heroType, int x, int y) {
         this.x = x;
@@ -15,8 +18,44 @@ public class Player {
         this.hp = hero.getInitialHp();
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public Hero getHero() {
+        return hero;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public int getXp() {
+        return xp;
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public boolean isAlive() {
+        return alive;
+    }
+
+    public void subHp(int damage) {
+        hp -= damage;
+    }
+
     @Override
     public String toString() {
         return hero + " " + x + " " + y;
+    }
+
+    public void printStats() {
+        System.out.println(hero + " | hp: " + hp);
     }
 }
