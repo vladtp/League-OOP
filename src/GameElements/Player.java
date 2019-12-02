@@ -102,13 +102,22 @@ public class Player {
         return hero + " " + x + " " + y;
     }
 
-    public void printStats() {
+    public void printDebug() {
         if (isAlive()) {
             System.out.println(hero + " | hp: " + hp + " | Level: " + level
                     + " (xp: " + xp + ")" + " | x:" + x + " y:" + y);
 
         } else {
             System.out.println(hero + " | DEAD");
+        }
+    }
+
+    public String getStats() {
+        if (isAlive()) {
+            return hero + " " + level + " " + xp + " " + hp + " " + x + " " + y;
+
+        } else {
+            return hero + " dead";
         }
     }
 

@@ -20,6 +20,9 @@ public abstract class Ability {
     // return damage done by attacker on opponent
     public abstract float damage(Player attacker, Player opponent, Map map);
     // improve ability when player levels up
+    public float getDamageOvertime() {
+        return 0;
+    }
     public void levelUp() {
         baseDamage += damagePerLevel;
     }

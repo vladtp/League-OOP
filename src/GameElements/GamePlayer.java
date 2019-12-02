@@ -2,8 +2,9 @@ package GameElements;
 
 import Abilities.Deflect;
 import Heroes.Wizard;
-import Main.GameInput;
+import main.GameInput;
 
+import java.io.FileWriter;
 import java.util.ArrayList;
 
 public class GamePlayer {
@@ -17,7 +18,7 @@ public class GamePlayer {
         map.setM(gameInput.getM());
     }
 
-    public void playGame() {
+    public ArrayList<Player> playGame() {
         int rounds = gameInput.getRounds();
         ArrayList<Player> players = gameInput.getPlayers();
         ArrayList<String> moves = gameInput.getMoves();
@@ -31,8 +32,10 @@ public class GamePlayer {
         System.out.println("END");
         for (int i = 0; i < players.size(); ++i) {
             System.out.print(i + 1 + " ");
-            players.get(i).printStats();
+            players.get(i).printDebug();
         }
+
+        return players;
     }
 
     void playRound(ArrayList<Player> players, String moves) {
@@ -41,7 +44,7 @@ public class GamePlayer {
         // for debugging
         for (int i = 0; i < numberOfPlayer; ++i) {
             System.out.print((i + 1) + " ");
-            players.get(i).printStats();
+            players.get(i).printDebug();
         }
 
         for (int i = 0; i < numberOfPlayer; ++i) {
@@ -72,6 +75,9 @@ public class GamePlayer {
                     }
                 } else {
                     player.setDuration(player.getDuration() - 1);
+                    if (player.getDuration() == 0) {
+                        player.setLocked(false);
+                    }
                 }
             }
         }
@@ -136,8 +142,8 @@ public class GamePlayer {
         if (p1.getHero() instanceof Wizard) {
             Deflect deflect = new Deflect();
 
-            p1A2InitialDmg = deflect.deflect(p2A1AfterTerrainModifier + p2A2AfterTerrainModifier,
-                    p2.getHero());
+            p1A2InitialDmg = deflect.deflect(Math.round(p2A1AfterTerrainModifier)
+                    + Math.round(p2A2AfterTerrainModifier), p2.getHero());
             p1A2AfterTerrainModifier = p1A2InitialDmg * terrainModifier1;
         }
 
@@ -145,8 +151,8 @@ public class GamePlayer {
         if (p2.getHero() instanceof Wizard) {
             Deflect deflect = new Deflect();
 
-            p2A2InitialDmg = deflect.deflect(p1A1AfterTerrainModifier + p1A2AfterTerrainModifier,
-                    p1.getHero());
+            p2A2InitialDmg = deflect.deflect(Math.round(p1A1AfterTerrainModifier)
+                    + Math.round(p1A2AfterTerrainModifier), p1.getHero());
             p2A2AfterTerrainModifier = p2A2InitialDmg * terrainModifier2;
         }
 
@@ -158,11 +164,9 @@ public class GamePlayer {
         float p2A1RaceModifier = p1.getHero().accept(p2.getHero().getFirstAbility());
         float p2A2RaceModifier = p1.getHero().accept(p2.getHero().getSecondAbility());
 
-        // p1 final dmg on each spell
         int p1A1FinalDmg = Math.round(p1A1AfterTerrainModifier * p1A1RaceModifier);
         int p1A2FinalDmg = Math.round(p1A2AfterTerrainModifier * p1A2RaceModifier);
 
-        // p2 final dmg on each spell
         int p2A1FinalDmg = Math.round(p2A1AfterTerrainModifier * p2A1RaceModifier);
         int p2A2FinalDmg = Math.round(p2A2AfterTerrainModifier * p2A2RaceModifier);
 
@@ -173,6 +177,26 @@ public class GamePlayer {
 
         p1.subHp(Math.round(p2FinalDmg));
         p2.subHp(Math.round(p1FinalDmg));
+
+        // calculate dmg overtime for p1
+        float dmgOvertime = p1.getHero().getFirstAbility().getDamageOvertime();
+        if (dmgOvertime != 0) {
+            p2.setDamageOvertime(Math.round(terrainModifier1 * p1A1RaceModifier * dmgOvertime));
+        }
+        dmgOvertime = p1.getHero().getSecondAbility().getDamageOvertime();
+        if (dmgOvertime != 0) {
+            p2.setDamageOvertime(Math.round(terrainModifier1 * p1A2RaceModifier * dmgOvertime));
+        }
+
+        // calculate dmg overtime for p2
+        dmgOvertime = p2.getHero().getFirstAbility().getDamageOvertime();
+        if (dmgOvertime != 0) {
+            p1.setDamageOvertime(Math.round(terrainModifier2 * p2A1RaceModifier * dmgOvertime));
+        }
+        dmgOvertime = p2.getHero().getSecondAbility().getDamageOvertime();
+        if (dmgOvertime != 0) {
+            p1.setDamageOvertime(Math.round(terrainModifier2 * p2A2RaceModifier * dmgOvertime));
+        }
 
     }
 

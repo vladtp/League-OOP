@@ -38,7 +38,7 @@ public class Deflect extends Ability {
     }
 
     // return deflect damage
-    public float deflect(float damage, Hero hero) {
+    public float deflect(int damage, Hero hero) {
         if (hero instanceof Wizard) {
             return 0;
         }

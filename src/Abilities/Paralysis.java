@@ -42,7 +42,6 @@ public class Paralysis extends Ability {
         opponent.resetOvertime();
         opponent.setLocked(true);
         opponent.setHasDamageOvertime(true);
-        opponent.setDamageOvertime(baseDamage);
         char tile = map.getTile(attacker.getX(), attacker.getY());
         // if attacker is on Wooods tile, then damage lasts more
         if (tile == 'W') {
@@ -51,6 +50,11 @@ public class Paralysis extends Ability {
             opponent.setDuration(duration);
         }
 
+        return baseDamage;
+    }
+
+    @Override
+    public float getDamageOvertime() {
         return baseDamage;
     }
 }

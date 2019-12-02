@@ -5,10 +5,10 @@ import Abilities.Backstab;
 import Abilities.Paralysis;
 
 public class Rogue implements Hero {
-    private int initialHp = 500;
-    private int hpPerLevel = 50;
-    private char terrainBonusType = 'V';
-    private float bonus = 1.25f;
+    private int initialHp = 600;
+    private int hpPerLevel = 40;
+    private char terrainBonusType = 'W';
+    private float bonus = 1.15f;
     private Backstab firstAbility = new Backstab();
     private Paralysis secondAbility = new Paralysis();
 

@@ -8,7 +8,7 @@ import Heroes.Rogue;
 import Heroes.Wizard;
 
 public class Backstab extends Ability {
-    int count = 0;
+    int count = 2;
 
     public Backstab() {
         super.baseDamage = 200;
@@ -42,7 +42,7 @@ public class Backstab extends Ability {
             count = 0;
             char tile = map.getTile(attacker.getX(), attacker.getY());
             if (tile == 'W') {
-                return (int) 1.5f * baseDamage;
+                return 1.5f * baseDamage;
             }
         }
         count++;

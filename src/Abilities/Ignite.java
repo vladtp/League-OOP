@@ -8,7 +8,7 @@ import Heroes.Rogue;
 import Heroes.Wizard;
 
 public class Ignite extends Ability {
-    int damageOvertime = 50;
+    float damageOvertime = 50;
     int damageOvertimePerLevel = 30;
     int duration = 2;
 
@@ -21,9 +21,13 @@ public class Ignite extends Ability {
         // set overtime damage for opponent
         opponent.resetOvertime();
         opponent.setHasDamageOvertime(true);
-        opponent.setDamageOvertime(damageOvertime);
         opponent.setDuration(duration);
         return baseDamage;
+    }
+
+    @Override
+    public float getDamageOvertime() {
+        return  damageOvertime;
     }
 
     @Override
