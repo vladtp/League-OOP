@@ -16,4 +16,7 @@ public abstract class Ability {
     abstract float modifier(Rogue enemy);
     abstract float modifier(Wizard enemy);
     public abstract int damage(Player attacker, Player opponent, Map map);
+    public void levelUp() {
+        baseDamage += damagePerLevel;
+    }
 }

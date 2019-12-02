@@ -104,7 +104,8 @@ public class Player {
 
     public void printStats() {
         if (isAlive()) {
-            System.out.println(hero + " | hp: " + hp + " | x:" + x + " y:" + y);
+            System.out.println(hero + " | hp: " + hp + " | Level: " + level
+                    + " (xp: " + xp + ")" + " | x:" + x + " y:" + y);
 
         } else {
             System.out.println(hero + " | DEAD");
@@ -128,5 +129,25 @@ public class Player {
         isLocked = false;
         duration = 0;
         damageOvertime = 0;
+    }
+
+    private void levelUp() {
+        level++;
+        maxHp += hero.getHpPerLevel();
+        hp = maxHp;
+        hero.getFirstAbility().levelUp();
+        hero.getSecondAbility().levelUp();
+    }
+
+    public void addXp(Player looser) {
+        int levelLooser = looser.getLevel();
+        int extraXp = Math.max(0, (200 - (level - levelLooser) * 40));
+        xp += extraXp;
+
+        int xpLevelUp = 250 + level * 50;
+        while (xp >= xpLevelUp) {
+            levelUp();
+            xpLevelUp += 50;
+        }
     }
 }

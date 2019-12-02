@@ -9,6 +9,9 @@ public class Deflect extends Ability {
     float percentPerLevel = 0.02f;
     final float maxPercent = 0.7f;
 
+    public Deflect() {
+    }
+
     @Override
     float modifier(Knight enemy) {
         return 0;
@@ -39,5 +42,10 @@ public class Deflect extends Ability {
             return 0;
         }
         return Math.round(percent * damage);
+    }
+
+    @Override
+    public void levelUp() {
+        percent = Math.min(percent + percentPerLevel, maxPercent);
     }
 }

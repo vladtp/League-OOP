@@ -42,9 +42,14 @@ public class Execute extends Ability {
         int opponentHp = opponent.getHp();
         int opponentMaxHp = opponent.getMaxHp();
         if (opponentHp < Math.round(percent * opponentMaxHp)) {
-            // opponent.setAlive(false);
             return opponentHp;
         }
         return baseDamage;
+    }
+
+    @Override
+    public void levelUp() {
+        super.levelUp();
+        percent = Math.min(percent + percentPerLevel, maxPercent);
     }
 }

@@ -42,4 +42,9 @@ public class Drain extends Ability {
 
         return damage;
     }
+
+    @Override
+    public void levelUp() {
+        percent += percentPerLevel;
+    }
 }

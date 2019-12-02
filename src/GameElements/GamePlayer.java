@@ -30,14 +30,8 @@ public class GamePlayer {
         // for debugging
         System.out.println("END");
         for (int i = 0; i < players.size(); ++i) {
-            if (players.get(i).isAlive()) {
-                System.out.println((i + 1) + " " + players.get(i).getHero() + " | hp: "
-                        + players.get(i).getHp() + " | x:" + players.get(i).getX() + " y:"
-                        + players.get(i).getY());
-            } else {
-                System.out.println((i + 1) + " " + players.get(i).getHero() + " | DEAD");
-            }
-
+            System.out.print(i + 1 + " ");
+            players.get(i).printStats();
         }
     }
 
@@ -84,26 +78,31 @@ public class GamePlayer {
 
         // check if any 2 players need to fight
         for (int i = 0; i < numberOfPlayer - 1; ++i) {
+            Player p1 = players.get(i);
+
             // if player i is alive look for other players on the same spot
-            if (players.get(i).isAlive()) {
-                int x = players.get(i).getX();
-                int y = players.get(i).getY();
+            if (p1.isAlive()) {
+                int x = p1.getX();
+                int y = p1.getY();
 
                 for (int j = i + 1; j < numberOfPlayer; ++j) {
+                    Player p2 = players.get(j);
                     // if player j is alive and on the same spot as player i, then fight
-                    if (players.get(j).isAlive()) {
-                        int enemyX = players.get(j).getX();
-                        int enemyY = players.get(j).getY();
+                    if (p2.isAlive()) {
+                        int enemyX = p2.getX();
+                        int enemyY = p2.getY();
 
                         if (x == enemyX && y == enemyY) {
-                            attack(players.get(i), players.get(j));
+                            attack(p1, p2);
 
                             // check if any of the players died
-                            if (players.get(i).getHp() <= 0) {
-                                players.get(i).setAlive(false);
+                            if (p1.getHp() <= 0) {
+                                p1.setAlive(false);
+                                p2.addXp(p1);
                             }
-                            if (players.get(j).getHp() <= 0) {
-                                players.get(j).setAlive(false);
+                            if (p2.getHp() <= 0) {
+                                p2.setAlive(false);
+                                p1.addXp(p2);
                             }
                         }
                     }
