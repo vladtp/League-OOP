@@ -11,11 +11,15 @@ public abstract class Ability {
     int baseDamage;
     int damagePerLevel;
 
-    abstract float modifier(Knight enemy);
-    abstract float modifier(Pyromancer enemy);
-    abstract float modifier(Rogue enemy);
-    abstract float modifier(Wizard enemy);
-    public abstract int damage(Player attacker, Player opponent, Map map);
+    // return race modifier
+    public abstract float modifier(Knight enemy);
+    public abstract float modifier(Pyromancer enemy);
+    public abstract float modifier(Rogue enemy);
+    public abstract float modifier(Wizard enemy);
+
+    // return damage done by attacker on opponent
+    public abstract float damage(Player attacker, Player opponent, Map map);
+    // improve ability when player levels up
     public void levelUp() {
         baseDamage += damagePerLevel;
     }

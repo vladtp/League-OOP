@@ -16,31 +16,32 @@ public class Backstab extends Ability {
     }
 
     @Override
-    float modifier(Knight enemy) {
-        return 0;
+    public float modifier(Knight enemy) {
+        return 0.9f;
     }
 
     @Override
-    float modifier(Pyromancer enemy) {
-        return 0;
+    public float modifier(Pyromancer enemy) {
+        return 1.25f;
     }
 
     @Override
-    float modifier(Rogue enemy) {
-        return 0;
+    public float modifier(Rogue enemy) {
+        return 1.2f;
     }
 
     @Override
-    float modifier(Wizard enemy) {
-        return 0;
+    public float modifier(Wizard enemy) {
+        return 1.25f;
     }
 
     @Override
-    public int damage(Player attacker, Player opponentm, Map map) {
+    public float damage(Player attacker, Player opponentm, Map map) {
+        // if it is the third hit, then crit
         if (count == 2) {
             count = 0;
-            char tyle = map.getTyle(attacker.getX(), attacker.getY());
-            if (tyle == 'W') {
+            char tile = map.getTile(attacker.getX(), attacker.getY());
+            if (tile == 'W') {
                 return (int) 1.5f * baseDamage;
             }
         }

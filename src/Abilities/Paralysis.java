@@ -17,33 +17,35 @@ public class Paralysis extends Ability {
     }
 
     @Override
-    float modifier(Knight enemy) {
-        return 0;
+    public float modifier(Knight enemy) {
+        return 0.8f;
     }
 
     @Override
-    float modifier(Pyromancer enemy) {
-        return 0;
+    public float modifier(Pyromancer enemy) {
+        return 1.2f;
     }
 
     @Override
-    float modifier(Rogue enemy) {
-        return 0;
+    public float modifier(Rogue enemy) {
+        return 0.9f;
     }
 
     @Override
-    float modifier(Wizard enemy) {
-        return 0;
+    public float modifier(Wizard enemy) {
+        return 1.25f;
     }
 
     @Override
-    public int damage(Player attacker, Player opponent, Map map) {
+    public float damage(Player attacker, Player opponent, Map map) {
+        // set overtime damage on opponent
         opponent.resetOvertime();
         opponent.setLocked(true);
         opponent.setHasDamageOvertime(true);
         opponent.setDamageOvertime(baseDamage);
-        char tyle = map.getTyle(attacker.getX(), attacker.getY());
-        if (tyle == 'W') {
+        char tile = map.getTile(attacker.getX(), attacker.getY());
+        // if attacker is on Wooods tile, then damage lasts more
+        if (tile == 'W') {
             opponent.setDuration(extendedDuration);
         } else {
             opponent.setDuration(duration);

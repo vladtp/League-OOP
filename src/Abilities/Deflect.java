@@ -13,35 +13,36 @@ public class Deflect extends Ability {
     }
 
     @Override
-    float modifier(Knight enemy) {
-        return 0;
+    public float modifier(Knight enemy) {
+        return 1.4f;
     }
 
     @Override
-    float modifier(Pyromancer enemy) {
-        return 0;
+    public float modifier(Pyromancer enemy) {
+        return 1.3f;
     }
 
     @Override
-    float modifier(Rogue enemy) {
-        return 0;
+    public float modifier(Rogue enemy) {
+        return 1.2f;
     }
 
     @Override
-    float modifier(Wizard enemy) {
-        return 0;
+    public float modifier(Wizard enemy) {
+        return 1f;
     }
 
     @Override
-    public int damage(Player attacker, Player opponent, Map map) {
+    public float damage(Player attacker, Player opponent, Map map) {
         return 0;
     }
 
-    public int deflect(int damage, Hero hero) {
+    // return deflect damage
+    public float deflect(float damage, Hero hero) {
         if (hero instanceof Wizard) {
             return 0;
         }
-        return Math.round(percent * damage);
+        return percent * damage;
     }
 
     @Override

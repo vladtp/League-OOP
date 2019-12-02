@@ -9,4 +9,5 @@ public interface Hero {
     public float getBonus();
     public Ability getFirstAbility();
     public Ability getSecondAbility();
+    public float accept(Ability a);
 }

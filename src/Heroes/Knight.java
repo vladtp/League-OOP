@@ -46,4 +46,9 @@ public class Knight implements Hero {
     public String toString() {
         return "K";
     }
+
+    @Override
+    public float accept(Ability a) {
+        return a.modifier(this);
+    }
 }

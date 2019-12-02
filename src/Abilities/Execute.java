@@ -18,29 +18,30 @@ public class Execute extends Ability {
     }
 
     @Override
-    float modifier(Knight enemy) {
-        return 1.2f;
+    public float modifier(Knight enemy) {
+        return 1f;
     }
 
     @Override
-    float modifier(Pyromancer enemy) {
-        return 0.9f;
+    public float modifier(Pyromancer enemy) {
+        return 1.1f;
     }
 
     @Override
-    float modifier(Rogue enemy) {
+    public float modifier(Rogue enemy) {
+        return 1.15f;
+    }
+
+    @Override
+    public float modifier(Wizard enemy) {
         return 0.8f;
     }
 
     @Override
-    float modifier(Wizard enemy) {
-        return 1.05f;
-    }
-
-    @Override
-    public int damage(Player attacker, Player opponent, Map map) {
+    public float damage(Player attacker, Player opponent, Map map) {
         int opponentHp = opponent.getHp();
         int opponentMaxHp = opponent.getMaxHp();
+        // if opponent is below a certain hp, then dmg = hp
         if (opponentHp < Math.round(percent * opponentMaxHp)) {
             return opponentHp;
         }

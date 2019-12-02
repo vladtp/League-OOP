@@ -112,24 +112,79 @@ public class GamePlayer {
     }
 
     void attack(Player p1, Player p2) {
-        // damage done in this round
-        int totalDamage1 = p1.getHero().getFirstAbility().damage(p1, p2, map)
-                + p1.getHero().getSecondAbility().damage(p1, p2, map);
-        int totalDamage2 = p2.getHero().getFirstAbility().damage(p2, p1, map)
-                + p2.getHero().getSecondAbility().damage(p2, p1, map);
+        // initial dmg done by p1 on each ability
+        float p1A1InitialDmg = p1.getHero().getFirstAbility().damage(p1, p2, map);
+        float p1A2InitialDmg = p1.getHero().getSecondAbility().damage(p1, p2, map);
 
-        // calculate Wizard deflect dmg
+        // initial dmg done by p2 on each ability
+        float p2A1InitialDmg = p2.getHero().getFirstAbility().damage(p2, p1, map);
+        float p2A2InitialDmg = p2.getHero().getSecondAbility().damage(p2, p1, map);
+
+        // each player terrain modifier
+        float terrainModifier1 = terrainModifier(p1);
+        float terrainModifier2 = terrainModifier(p2);
+
+        // p1 damage after terrain modifier on each spell
+        float p1A1AfterTerrainModifier = p1A1InitialDmg * terrainModifier1;
+        float p1A2AfterTerrainModifier = p1A2InitialDmg * terrainModifier1;
+
+        // p2 damage after terrain modifier on each spell
+        float p2A1AfterTerrainModifier = p2A1InitialDmg * terrainModifier2;
+        float p2A2AfterTerrainModifier = p2A2InitialDmg * terrainModifier2;
+
+        // calculate deflect dmg if p1 is wizard
         if (p1.getHero() instanceof Wizard) {
             Deflect deflect = new Deflect();
-            totalDamage1 += deflect.deflect(totalDamage2, p2.getHero());
+
+            p1A2InitialDmg = deflect.deflect(p2A1AfterTerrainModifier + p2A2AfterTerrainModifier,
+                    p2.getHero());
+            p1A2AfterTerrainModifier = p1A2InitialDmg * terrainModifier1;
         }
+
+        // calculate deflect dmg if p2 is wizard
         if (p2.getHero() instanceof Wizard) {
             Deflect deflect = new Deflect();
-            totalDamage2 += deflect.deflect(totalDamage1, p1.getHero());
+
+            p2A2InitialDmg = deflect.deflect(p1A1AfterTerrainModifier + p1A2AfterTerrainModifier,
+                    p1.getHero());
+            p2A2AfterTerrainModifier = p2A2InitialDmg * terrainModifier2;
         }
 
-        p1.subHp(totalDamage2);
-        p2.subHp(totalDamage1);
+        // p1 race modifier for each ability
+        float p1A1RaceModifier = p2.getHero().accept(p1.getHero().getFirstAbility());
+        float p1A2RaceModifier = p2.getHero().accept(p1.getHero().getSecondAbility());
 
+        // p2 race modifier for each ability
+        float p2A1RaceModifier = p1.getHero().accept(p2.getHero().getFirstAbility());
+        float p2A2RaceModifier = p1.getHero().accept(p2.getHero().getSecondAbility());
+
+        // p1 final dmg on each spell
+        int p1A1FinalDmg = Math.round(p1A1AfterTerrainModifier * p1A1RaceModifier);
+        int p1A2FinalDmg = Math.round(p1A2AfterTerrainModifier * p1A2RaceModifier);
+
+        // p2 final dmg on each spell
+        int p2A1FinalDmg = Math.round(p2A1AfterTerrainModifier * p2A1RaceModifier);
+        int p2A2FinalDmg = Math.round(p2A2AfterTerrainModifier * p2A2RaceModifier);
+
+        // final dmg
+        int p1FinalDmg = p1A1FinalDmg + p1A2FinalDmg;
+        int p2FinalDmg = p2A1FinalDmg + p2A2FinalDmg;
+
+
+        p1.subHp(Math.round(p2FinalDmg));
+        p2.subHp(Math.round(p1FinalDmg));
+
+    }
+
+    // return terrain modifier for player p
+    private float terrainModifier(Player p) {
+        char tile = map.getTile(p.getX(), p.getY());
+        char bonustile = p.getHero().getTerrainBonusType();
+
+        if (tile == bonustile) {
+            return p.getHero().getBonus();
+        } else {
+            return 1f;
+        }
     }
 }

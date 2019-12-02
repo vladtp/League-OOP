@@ -14,27 +14,28 @@ public class Slam extends Ability {
         super.damagePerLevel = 40;
     }
     @Override
-    float modifier(Knight enemy) {
+    public float modifier(Knight enemy) {
         return 1.2f;
     }
 
     @Override
-    float modifier(Pyromancer enemy) {
+    public float modifier(Pyromancer enemy) {
         return 0.9f;
     }
 
     @Override
-    float modifier(Rogue enemy) {
+    public float modifier(Rogue enemy) {
         return 0.8f;
     }
 
     @Override
-    float modifier(Wizard enemy) {
+    public float modifier(Wizard enemy) {
         return 1.05f;
     }
 
     @Override
-    public int damage(Player attacker, Player opponent, Map map) {
+    public float damage(Player attacker, Player opponent, Map map) {
+        // make opponent unable to move
         opponent.resetOvertime();
         opponent.setLocked(true);
         opponent.setDuration(duration);

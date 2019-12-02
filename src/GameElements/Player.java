@@ -124,6 +124,8 @@ public class Player {
     public void moveRight() {
         ++y;
     }
+
+    // disable overtime spells
     public void resetOvertime() {
         hasDamageOvertime = false;
         isLocked = false;

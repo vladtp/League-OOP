@@ -15,30 +15,30 @@ public class Drain extends Ability {
     }
 
     @Override
-    float modifier(Knight enemy) {
-        return 0;
+    public float modifier(Knight enemy) {
+        return 1.2f;
     }
 
     @Override
-    float modifier(Pyromancer enemy) {
-        return 0;
+    public float modifier(Pyromancer enemy) {
+        return 0.9f;
     }
 
     @Override
-    float modifier(Rogue enemy) {
-        return 0;
+    public float modifier(Rogue enemy) {
+        return 0.8f;
     }
 
     @Override
-    float modifier(Wizard enemy) {
-        return 0;
+    public float modifier(Wizard enemy) {
+        return 1.05f;
     }
 
     @Override
-    public int damage(Player attacker, Player opponent, Map map) {
+    public float damage(Player attacker, Player opponent, Map map) {
         int opponentHp = opponent.getHp();
         int opponentMaxHp = opponent.getMaxHp();
-        int damage = Math.round(percent * (Math.min(Math.round(0.3f * opponentMaxHp), opponentHp)));
+        float damage = percent * (Math.min(0.3f * opponentMaxHp, opponentHp));
 
         return damage;
     }

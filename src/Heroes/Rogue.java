@@ -46,4 +46,9 @@ public class Rogue implements Hero {
     public String toString() {
         return "R";
     }
+
+    @Override
+    public float accept(Ability a) {
+        return a.modifier(this);
+    }
 }

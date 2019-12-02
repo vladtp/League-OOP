@@ -44,4 +44,9 @@ public class Wizard implements Hero {
     public String toString() {
         return "W";
     }
+
+    @Override
+    public float accept(Ability a) {
+        return a.modifier(this);
+    }
 }

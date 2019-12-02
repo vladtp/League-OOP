@@ -24,7 +24,8 @@ public class Map {
         this.map = map;
     }
 
-    public char getTyle(int x, int y) {
+    // return type of tile on pos x, y
+    public char getTile(int x, int y) {
         return map.get(x * m + y);
     }
 

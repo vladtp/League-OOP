@@ -44,4 +44,9 @@ public class Pyromancer implements Hero {
     public String toString() {
         return "P";
     }
+
+    @Override
+    public float accept(Ability a) {
+        return a.modifier(this);
+    }
 }
