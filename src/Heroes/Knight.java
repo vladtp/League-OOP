@@ -1,12 +1,16 @@
 package Heroes;
 
 import Abilities.Ability;
+import Abilities.Execute;
+import Abilities.Slam;
 
 public class Knight implements Hero {
     private int initialHp = 900;
     private int hpPerLevel = 80;
     private char terrainBonusType = 'L';
     private float bonus = 1.15f;
+    private Execute firstAbility = new Execute();
+    private Slam secondAbility = new Slam();
 
     @Override
     public int getInitialHp() {
@@ -30,12 +34,12 @@ public class Knight implements Hero {
 
     @Override
     public Ability getFirstAbility() {
-        return null;
+        return firstAbility;
     }
 
     @Override
     public Ability getSecondAbility() {
-        return null;
+        return secondAbility;
     }
 
     @Override

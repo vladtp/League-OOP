@@ -7,35 +7,39 @@ import Heroes.Pyromancer;
 import Heroes.Rogue;
 import Heroes.Wizard;
 
-public class Fireblast extends Ability {
-    public Fireblast() {
-        super.baseDamage = 350;
-        super.damagePerLevel = 50;
+public class Drain extends Ability {
+    float percent = 0.2f;
+    float percentPerLevel = 0.05f;
+
+    public Drain() {
     }
 
     @Override
     float modifier(Knight enemy) {
-        return 1.2f;
+        return 0;
     }
 
     @Override
     float modifier(Pyromancer enemy) {
-        return 0.9f;
+        return 0;
     }
 
     @Override
     float modifier(Rogue enemy) {
-        return 0.8f;
+        return 0;
     }
 
     @Override
     float modifier(Wizard enemy) {
-        return 1.05f;
+        return 0;
     }
 
-    // TODO add bonus damage
     @Override
     public int damage(Player attacker, Player opponent, Map map) {
-        return baseDamage;
+        int opponentHp = opponent.getHp();
+        int opponentMaxHp = opponent.getMaxHp();
+        int damage = Math.round(percent * (Math.min(Math.round(0.3f * opponentMaxHp), opponentHp)));
+
+        return damage;
     }
 }

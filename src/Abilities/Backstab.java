@@ -7,22 +7,12 @@ import Heroes.Pyromancer;
 import Heroes.Rogue;
 import Heroes.Wizard;
 
-public class Ignite extends Ability {
-    int damageOvertime = 50;
-    int damageOvertimePerLevel = 30;
-    int duration = 2;
+public class Backstab extends Ability {
+    int count = 0;
 
-    public Ignite() {
-        super.baseDamage = 150;
+    public Backstab() {
+        super.baseDamage = 200;
         super.damagePerLevel = 20;
-    }
-
-    public int damage(Player attacker, Player opponent, Map map) {
-        opponent.resetOvertime();
-        opponent.setHasDamageOvertime(true);
-        opponent.setDamageOvertime(damageOvertime);
-        opponent.setDuration(duration);
-        return baseDamage;
     }
 
     @Override
@@ -43,5 +33,18 @@ public class Ignite extends Ability {
     @Override
     float modifier(Wizard enemy) {
         return 0;
+    }
+
+    @Override
+    public int damage(Player attacker, Player opponentm, Map map) {
+        if (count == 2) {
+            count = 0;
+            char tyle = map.getTyle(attacker.getX(), attacker.getY());
+            if (tyle == 'W') {
+                return (int) 1.5f * baseDamage;
+            }
+        }
+        count++;
+        return baseDamage;
     }
 }

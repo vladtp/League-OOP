@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Map {
     ArrayList<Character> map = new ArrayList<Character>();
+    private int n, m;
     private static Map instance = null;
 
     private Map() {}
@@ -23,9 +24,20 @@ public class Map {
         this.map = map;
     }
 
+    public char getTyle(int x, int y) {
+        return map.get(x * m + y);
+    }
+
+    public void setN(int n) {
+        this.n = n;
+    }
+
+    public void setM(int m) {
+        this.m = m;
+    }
+
     @Override
     public String toString() {
         return map.toString();
     }
-    // TODO method that gets x, y and returns the terrain type
 }

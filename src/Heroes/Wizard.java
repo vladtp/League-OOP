@@ -1,12 +1,14 @@
 package Heroes;
 
-import Abilities.Ability;
+import Abilities.*;
 
 public class Wizard implements Hero {
     private int initialHp = 400;
     private int hpPerLevel = 30;
     private char terrainBonusType = 'D';
     private float bonus = 1.10f;
+    private Drain firstAbility = new Drain();
+    private Deflect secondAbility = new Deflect();
 
     @Override
     public int getInitialHp() {
@@ -30,12 +32,12 @@ public class Wizard implements Hero {
 
     @Override
     public Ability getFirstAbility() {
-        return null;
+        return firstAbility;
     }
 
     @Override
     public Ability getSecondAbility() {
-        return null;
+        return secondAbility;
     }
 
     @Override

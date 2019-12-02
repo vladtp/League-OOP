@@ -7,12 +7,12 @@ import Heroes.Pyromancer;
 import Heroes.Rogue;
 import Heroes.Wizard;
 
-public class Fireblast extends Ability {
-    public Fireblast() {
-        super.baseDamage = 350;
-        super.damagePerLevel = 50;
+public class Slam extends Ability {
+    int duration = 1;
+    public Slam() {
+        super.baseDamage = 100;
+        super.damagePerLevel = 40;
     }
-
     @Override
     float modifier(Knight enemy) {
         return 1.2f;
@@ -33,9 +33,11 @@ public class Fireblast extends Ability {
         return 1.05f;
     }
 
-    // TODO add bonus damage
     @Override
     public int damage(Player attacker, Player opponent, Map map) {
+        opponent.resetOvertime();
+        opponent.setLocked(true);
+        opponent.setDuration(duration);
         return baseDamage;
     }
 }

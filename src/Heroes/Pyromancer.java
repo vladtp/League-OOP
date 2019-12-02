@@ -5,7 +5,7 @@ import Abilities.Fireblast;
 import Abilities.Ignite;
 
 public class Pyromancer implements Hero {
-    private int initialHp = 5000;
+    private int initialHp = 500;
     private int hpPerLevel = 50;
     private char terrainBonusType = 'V';
     private float bonus = 1.25f;
