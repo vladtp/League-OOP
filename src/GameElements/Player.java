@@ -9,16 +9,20 @@ public class Player {
     private int level = 0;
     private int xp = 0;
     private int hp;
+    private int maxHp;
     private boolean alive = true;
+
     private boolean hasDamageOvertime = false;
+    private boolean isLocked = false;
     private int damageOvertime;
-    private int damageDuration;
+    private int duration;
 
     public Player(String heroType, int x, int y) {
         this.x = x;
         this.y = y;
         this.hero = HeroFactory.getHero(heroType);
         this.hp = hero.getInitialHp();
+        this.maxHp = hp;
     }
 
     public int getX() {
@@ -41,12 +45,28 @@ public class Player {
         return xp;
     }
 
+    public boolean hasDamageOvertime() {
+        return hasDamageOvertime;
+    }
+
     public int getHp() {
         return hp;
     }
 
+    public int getMaxHp() {
+        return maxHp;
+    }
+
     public boolean isAlive() {
         return alive;
+    }
+
+    public void setAlive(boolean alive) {
+        this.alive = alive;
+    }
+
+    public boolean isLocked() {
+        return isLocked;
     }
 
     public void subHp(int damage) {
@@ -61,20 +81,20 @@ public class Player {
         this.damageOvertime = damageOvertime;
     }
 
-    public void setDamageDuration(int damageDuration) {
-        this.damageDuration = damageDuration;
+    public void setDuration(int duration) {
+        this.duration = duration;
     }
 
-    public boolean hasDamageOvertime() {
-        return hasDamageOvertime;
+    public void setLocked(boolean locked) {
+        isLocked = locked;
     }
 
     public int getDamageOvertime() {
         return damageOvertime;
     }
 
-    public int getDamageDuration() {
-        return damageDuration;
+    public int getDuration() {
+        return duration;
     }
 
     @Override
@@ -83,7 +103,12 @@ public class Player {
     }
 
     public void printStats() {
-        System.out.println(hero + " | hp: " + hp + " | x:" + x + " y:" + y);
+        if (isAlive()) {
+            System.out.println(hero + " | hp: " + hp + " | x:" + x + " y:" + y);
+
+        } else {
+            System.out.println(hero + " | DEAD");
+        }
     }
 
     public void moveUp() {
@@ -97,5 +122,11 @@ public class Player {
     }
     public void moveRight() {
         ++y;
+    }
+    public void resetOvertime() {
+        hasDamageOvertime = false;
+        isLocked = false;
+        duration = 0;
+        damageOvertime = 0;
     }
 }

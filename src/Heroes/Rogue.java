@@ -1,12 +1,16 @@
 package Heroes;
 
 import Abilities.Ability;
+import Abilities.Backstab;
+import Abilities.Paralysis;
 
 public class Rogue implements Hero {
     private int initialHp = 500;
     private int hpPerLevel = 50;
     private char terrainBonusType = 'V';
     private float bonus = 1.25f;
+    private Backstab firstAbility = new Backstab();
+    private Paralysis secondAbility = new Paralysis();
 
     @Override
     public int getInitialHp() {
@@ -30,12 +34,12 @@ public class Rogue implements Hero {
 
     @Override
     public Ability getFirstAbility() {
-        return null;
+        return firstAbility;
     }
 
     @Override
     public Ability getSecondAbility() {
-        return null;
+        return secondAbility;
     }
 
     @Override

@@ -7,10 +7,14 @@ import Heroes.Pyromancer;
 import Heroes.Rogue;
 import Heroes.Wizard;
 
-public class Fireblast extends Ability {
-    public Fireblast() {
-        super.baseDamage = 350;
-        super.damagePerLevel = 50;
+public class Execute extends Ability {
+    float percent = 0.2f;
+    float percentPerLevel = 0.01f;
+    final float maxPercent = 0.4f;
+
+    public Execute() {
+        super.baseDamage = 200;
+        super.damagePerLevel = 30;
     }
 
     @Override
@@ -33,9 +37,14 @@ public class Fireblast extends Ability {
         return 1.05f;
     }
 
-    // TODO add bonus damage
     @Override
     public int damage(Player attacker, Player opponent, Map map) {
+        int opponentHp = opponent.getHp();
+        int opponentMaxHp = opponent.getMaxHp();
+        if (opponentHp < Math.round(percent * opponentMaxHp)) {
+            // opponent.setAlive(false);
+            return opponentHp;
+        }
         return baseDamage;
     }
 }

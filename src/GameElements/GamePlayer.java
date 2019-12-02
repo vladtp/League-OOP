@@ -1,14 +1,20 @@
 package GameElements;
 
+import Abilities.Deflect;
+import Heroes.Wizard;
 import Main.GameInput;
 
 import java.util.ArrayList;
 
 public class GamePlayer {
     private GameInput gameInput;
+    private Map map;
 
     public GamePlayer(GameInput gameInput) {
         this.gameInput = gameInput;
+        map = gameInput.getMap();
+        map.setN(gameInput.getN());
+        map.setM(gameInput.getM());
     }
 
     public void playGame() {
@@ -24,9 +30,14 @@ public class GamePlayer {
         // for debugging
         System.out.println("END");
         for (int i = 0; i < players.size(); ++i) {
-            System.out.println((i + 1) + " " + players.get(i).getHero() + " | hp: "
-                    + players.get(i).getHp() + " | x:" + players.get(i).getX() + " y:"
-                    + players.get(i).getY());
+            if (players.get(i).isAlive()) {
+                System.out.println((i + 1) + " " + players.get(i).getHero() + " | hp: "
+                        + players.get(i).getHp() + " | x:" + players.get(i).getX() + " y:"
+                        + players.get(i).getY());
+            } else {
+                System.out.println((i + 1) + " " + players.get(i).getHero() + " | DEAD");
+            }
+
         }
     }
 
@@ -40,59 +51,86 @@ public class GamePlayer {
         }
 
         for (int i = 0; i < numberOfPlayer; ++i) {
-            // chech if player has damage overtime
             Player player = players.get(i);
-            if (player.getDamageDuration() > 0) {
-                player.subHp(player.getDamageOvertime());
-                player.setDamageDuration(player.getDamageDuration() - 1);
-                // TODO check if dead
-            }
 
-            char move = moves.charAt(i);
-            if (move == 'U') {
-                player.moveUp();
-            } else if (move == 'D') {
-                player.moveDown();
-            } else if (move == 'L') {
-                player.moveLeft();
-            } else if (move == 'R') {
-                player.moveRight();
+            if (player.isAlive()) {
+                // chech if player has damage overtime
+                if (player.hasDamageOvertime()) {
+                    player.subHp(player.getDamageOvertime());
+                    player.setDuration(player.getDuration() - 1);
+
+                    if (player.getHp() <= 0) {
+                        player.setAlive(false);
+                    }
+                }
+
+                // check if player can move and move him
+                if (!player.isLocked()) {
+                    char move = moves.charAt(i);
+                    if (move == 'U') {
+                        player.moveUp();
+                    } else if (move == 'D') {
+                        player.moveDown();
+                    } else if (move == 'L') {
+                        player.moveLeft();
+                    } else if (move == 'R') {
+                        player.moveRight();
+                    }
+                } else {
+                    player.setDuration(player.getDuration() - 1);
+                }
             }
         }
 
-
+        // check if any 2 players need to fight
         for (int i = 0; i < numberOfPlayer - 1; ++i) {
-            int x = players.get(i).getX();
-            int y = players.get(i).getY();
-            for (int j = i + 1; j < numberOfPlayer; ++j) {
-                int enemyX = players.get(j).getX();
-                int enemyY = players.get(j).getY();
+            // if player i is alive look for other players on the same spot
+            if (players.get(i).isAlive()) {
+                int x = players.get(i).getX();
+                int y = players.get(i).getY();
 
-                if (x == enemyX && y == enemyY) {
-                    attack(players.get(i), players.get(j));
-                    // TODO check if player is dead
+                for (int j = i + 1; j < numberOfPlayer; ++j) {
+                    // if player j is alive and on the same spot as player i, then fight
+                    if (players.get(j).isAlive()) {
+                        int enemyX = players.get(j).getX();
+                        int enemyY = players.get(j).getY();
+
+                        if (x == enemyX && y == enemyY) {
+                            attack(players.get(i), players.get(j));
+
+                            // check if any of the players died
+                            if (players.get(i).getHp() <= 0) {
+                                players.get(i).setAlive(false);
+                            }
+                            if (players.get(j).getHp() <= 0) {
+                                players.get(j).setAlive(false);
+                            }
+                        }
+                    }
                 }
             }
         }
     }
 
     void attack(Player p1, Player p2) {
-        int totalDamage1 = p1.getHero().getFirstAbility().damage()
-                + p1.getHero().getSecondAbility().damage();
-        int totalDamage2 = p2.getHero().getFirstAbility().damage()
-                + p2.getHero().getSecondAbility().damage();;
+        // damage done in this round
+        int totalDamage1 = p1.getHero().getFirstAbility().damage(p1, p2, map)
+                + p1.getHero().getSecondAbility().damage(p1, p2, map);
+        int totalDamage2 = p2.getHero().getFirstAbility().damage(p2, p1, map)
+                + p2.getHero().getSecondAbility().damage(p2, p1, map);
+
+        // calculate Wizard deflect dmg
+        if (p1.getHero() instanceof Wizard) {
+            Deflect deflect = new Deflect();
+            totalDamage1 += deflect.deflect(totalDamage2, p2.getHero());
+        }
+        if (p2.getHero() instanceof Wizard) {
+            Deflect deflect = new Deflect();
+            totalDamage2 += deflect.deflect(totalDamage1, p1.getHero());
+        }
+
         p1.subHp(totalDamage2);
         p2.subHp(totalDamage1);
 
-        if (p1.getHero().getSecondAbility().isOvertime()) {
-            p2.setHasDamageOvertime(true);
-            p2.setDamageOvertime(p1.getHero().getSecondAbility().getDamageOvertime());
-            p2.setDamageDuration(p1.getHero().getSecondAbility().getDamageDuration());
-        }
-        if (p2.getHero().getSecondAbility().isOvertime()) {
-            p1.setHasDamageOvertime(true);
-            p1.setDamageOvertime(p1.getHero().getSecondAbility().getDamageOvertime());
-            p1.setDamageDuration(p1.getHero().getSecondAbility().getDamageDuration());
-        }
     }
 }
