@@ -1,6 +1,6 @@
 package Heroes;
 
-import Abilities.Ability;
+import abilities.Ability;
 
 public interface Hero {
     public int getInitialHp();

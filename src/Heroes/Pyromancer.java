@@ -1,8 +1,8 @@
 package Heroes;
 
-import Abilities.Ability;
-import Abilities.Fireblast;
-import Abilities.Ignite;
+import abilities.Ability;
+import abilities.Fireblast;
+import abilities.Ignite;
 
 public class Pyromancer implements Hero {
     private int initialHp = 500;

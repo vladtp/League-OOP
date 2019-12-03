@@ -15,7 +15,8 @@ public class Player {
     private boolean hasDamageOvertime = false;
     private boolean isLocked = false;
     private int damageOvertime;
-    private int duration;
+    private int damageDuration;
+    private int lockedDuration;
 
     public Player(String heroType, int x, int y) {
         this.x = x;
@@ -57,6 +58,14 @@ public class Player {
         return maxHp;
     }
 
+    public int getLockedDuration() {
+        return lockedDuration;
+    }
+
+    public void setLockedDuration(int lockedDuration) {
+        this.lockedDuration = lockedDuration;
+    }
+
     public boolean isAlive() {
         return alive;
     }
@@ -81,8 +90,8 @@ public class Player {
         this.damageOvertime = damageOvertime;
     }
 
-    public void setDuration(int duration) {
-        this.duration = duration;
+    public void setDamageDuration(int damageDuration) {
+        this.damageDuration = damageDuration;
     }
 
     public void setLocked(boolean locked) {
@@ -93,8 +102,8 @@ public class Player {
         return damageOvertime;
     }
 
-    public int getDuration() {
-        return duration;
+    public int getDamageDuration() {
+        return damageDuration;
     }
 
     @Override
@@ -138,8 +147,9 @@ public class Player {
     public void resetOvertime() {
         hasDamageOvertime = false;
         isLocked = false;
-        duration = 0;
+        damageDuration = 0;
         damageOvertime = 0;
+        lockedDuration = 0;
     }
 
     private void levelUp() {

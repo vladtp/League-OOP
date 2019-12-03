@@ -1,8 +1,8 @@
 package Heroes;
 
-import Abilities.Ability;
-import Abilities.Backstab;
-import Abilities.Paralysis;
+import abilities.Ability;
+import abilities.Backstab;
+import abilities.Paralysis;
 
 public class Rogue implements Hero {
     private int initialHp = 600;

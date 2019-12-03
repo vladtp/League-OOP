@@ -1,8 +1,8 @@
 package Heroes;
 
-import Abilities.Ability;
-import Abilities.Execute;
-import Abilities.Slam;
+import abilities.Ability;
+import abilities.Execute;
+import abilities.Slam;
 
 public class Knight implements Hero {
     private int initialHp = 900;

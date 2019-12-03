@@ -1,10 +1,9 @@
 package GameElements;
 
-import Abilities.Deflect;
+import abilities.Deflect;
 import Heroes.Wizard;
 import main.GameInput;
 
-import java.io.FileWriter;
 import java.util.ArrayList;
 
 public class GamePlayer {
@@ -54,8 +53,14 @@ public class GamePlayer {
                 // chech if player has damage overtime
                 if (player.hasDamageOvertime()) {
                     player.subHp(player.getDamageOvertime());
-                    player.setDuration(player.getDuration() - 1);
+                    player.setDamageDuration(player.getDamageDuration() - 1);
 
+                    // check if damage overtime has ended
+                    if (player.getDamageDuration() == 0) {
+                        player.setHasDamageOvertime(false);
+                    }
+
+                    // check if he died
                     if (player.getHp() <= 0) {
                         player.setAlive(false);
                     }
@@ -74,8 +79,8 @@ public class GamePlayer {
                         player.moveRight();
                     }
                 } else {
-                    player.setDuration(player.getDuration() - 1);
-                    if (player.getDuration() == 0) {
+                    player.setLockedDuration(player.getLockedDuration() - 1);
+                    if (player.getLockedDuration() == 0) {
                         player.setLocked(false);
                     }
                 }
@@ -102,6 +107,10 @@ public class GamePlayer {
                             attack(p1, p2);
 
                             // check if any of the players died
+                            if (p1.getHp() <= 0 && p2.getHp() <= 0) {
+                                p1.setAlive(false);
+                                p2.setAlive(false);
+                            }
                             if (p1.getHp() <= 0) {
                                 p1.setAlive(false);
                                 p2.addXp(p1);
@@ -144,6 +153,7 @@ public class GamePlayer {
 
             p1A2InitialDmg = deflect.deflect(Math.round(p2A1AfterTerrainModifier)
                     + Math.round(p2A2AfterTerrainModifier), p2.getHero());
+            // p1A2InitialDmg = deflect.deflect(p2A1AfterTerrainModifier + p2A2AfterTerrainModifier, p2.getHero());
             p1A2AfterTerrainModifier = p1A2InitialDmg * terrainModifier1;
         }
 
@@ -153,6 +163,7 @@ public class GamePlayer {
 
             p2A2InitialDmg = deflect.deflect(Math.round(p1A1AfterTerrainModifier)
                     + Math.round(p1A2AfterTerrainModifier), p1.getHero());
+            // p2A2InitialDmg = deflect.deflect(p1A1AfterTerrainModifier + p1A2AfterTerrainModifier, p1.getHero());
             p2A2AfterTerrainModifier = p2A2InitialDmg * terrainModifier2;
         }
 

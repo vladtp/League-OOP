@@ -13,6 +13,8 @@ fubnctia attack().
 atat in cazul initial cat si dupa modificatori. In final scade din viata
 player-ilor damage ul primit. De asemenea aceasta seteaza damage-ul overtime, 
 daca este cazul.
+	Dupa attack() se verifica daca un player a murit, sau daca un player
+are destul xp pentru levelUp.
 	Pentru heroes am creeat un HeroFactory, iar pentru abilitiati, am 
 implementat fiecare abilitate ca o clasa diferita.
 	Double dispatch a fost folosit intre clasele Ability si clasele Hero.

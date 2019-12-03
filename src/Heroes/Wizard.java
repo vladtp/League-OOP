@@ -1,6 +1,6 @@
 package Heroes;
 
-import Abilities.*;
+import abilities.*;
 
 public class Wizard implements Hero {
     private int initialHp = 400;
